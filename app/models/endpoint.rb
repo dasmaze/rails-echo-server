@@ -1,8 +1,10 @@
 class Endpoint < ApplicationRecord
+    METHODS = ['GET', 'HEAD', 'POST', 'PUT', 'DELETE', 'PATCH']
+
     has_many :headers, dependent: :destroy
 
-    validates_presence_of :id, :verb, :path, :response_code
+    validates_presence_of :verb, :path, :response_code
 
-    validates :verb, inclusion: { in: %w(GET HEAD POST PUT DELETE PATCH),
-        message: "%{value} is not a supported HTTP method" }
+    validates :verb, inclusion: { in: METHODS,
+        message: "'%{value}' is not a supported HTTP method" }
 end

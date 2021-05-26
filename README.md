@@ -28,3 +28,4 @@ Things you may want to cover:
 - Default `/endpoints` routes need to be protected from being overwritten/redefined/updated
 - The database schema is different than the resulting json structure
 - The reason is that endpoint and response have a 1:1 relation, putting them together potentially saves a join
+- wrong methods to created endpoints return 404 according to the spec, but 405 Method Not Allowed is more appropriate

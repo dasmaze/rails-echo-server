@@ -29,3 +29,6 @@ Things you may want to cover:
 - The database schema is different than the resulting json structure
 - The reason is that endpoint and response have a 1:1 relation, putting them together potentially saves a join
 - wrong methods to created endpoints return 404 according to the spec, but 405 Method Not Allowed is more appropriate
+- Input validation for body and path is probably needed
+- path+method combinations might need to be unique
+- response body does not usually conform to a specific mimetype. I probably shouldn't assume JSON

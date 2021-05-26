@@ -15,7 +15,7 @@ RSpec.describe 'Endpoints API', type: :request do
                         'Cache-Control': 'max-age=3600',
                         'Last-Modified': 'Thu, 27 May 2021 14:00:00 GMT'
                     },
-                    body: "\"{ \"message\": \"Hello, everyone\" }\""
+                    body: "{ \"message\": \"Hello, everyone\" }"
                 }
             }
         }
@@ -50,7 +50,7 @@ RSpec.describe 'Endpoints API', type: :request do
 
         it 'returns endpoints' do
             expect(json).not_to be_empty
-            expect(json.size).to eq(10)         
+            expect(json['data'].size).to eq(10)         
         end
 
         it 'returns status code 200' do
@@ -64,7 +64,7 @@ RSpec.describe 'Endpoints API', type: :request do
         context 'when the endpoint exists' do
             it 'returns the endpoint' do
                 expect(json).not_to be_empty
-                expect(json['id']).to eq(endpoint_id)
+                expect(json['data']['id']).to eq(endpoint_id)
             end
 
             it 'returns status 200' do
@@ -91,8 +91,7 @@ RSpec.describe 'Endpoints API', type: :request do
             before { post '/endpoints', params: valid_endpoint }
 
             it 'creates an endpoint' do
-                p json
-                expect(json['path']).to eq('/greeting')
+                expect(json['data']['attributes']['path']).to eq('/greeting')
             end
 
             it 'returns status code 201' do
@@ -130,7 +129,7 @@ RSpec.describe 'Endpoints API', type: :request do
             before { patch "/endpoints/#{endpoint_id}", params: valid_endpoint }
 
             it 'updates an endpoint' do
-                expect(json['path']).to eq('/greeting')
+                expect(json['data']['attributes']['path']).to eq('/greeting')
             end
 
             it 'returns status code 200' do

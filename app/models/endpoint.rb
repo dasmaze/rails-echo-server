@@ -7,4 +7,7 @@ class Endpoint < ApplicationRecord
 
     validates :verb, inclusion: { in: METHODS,
         message: "'%{value}' is not a supported HTTP method" }
+    
+    validates :path, format: { with: /\A\/(?:[\w-]+\/?)+\z/,
+        message: "Paths are restricted to be alphanumerical" }
 end

@@ -1,23 +1,23 @@
 class EndpointsController < ApplicationController
     def index
         @endpoints = Endpoint.all
-        render json: @endpoints
+        render json: json_api_endpoints(@endpoints)
     end
 
     def create
         @endpoint = Endpoint.create!(endpoint_attributes)
-        render json: @endpoint, status: :created
+        render json: json_api_endpoint(@endpoint), status: :created
     end
 
     def show
         @endpoint = Endpoint.find(params[:id])
-        render json: @endpoint
+        render json: json_api_endpoint(@endpoint)
     end
 
     def update
         @endpoint = Endpoint.find(params[:id])
         @endpoint.update!(endpoint_attributes)
-        render json: @endpoint
+        render json: json_api_endpoint(@endpoint)
     end
 
     def destroy
@@ -52,6 +52,4 @@ class EndpointsController < ApplicationController
         }
         headers
     end
-
-    # Response construction
 end

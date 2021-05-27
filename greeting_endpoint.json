@@ -1,0 +1,17 @@
+{
+  "data": {
+    "type": "endpoints",
+    "attributes": {
+      "verb": "GET",
+      "path": "/greeting",
+      "response": {
+        "code": 200,
+        "headers": {
+          "Cache-Control": "max-age=3600",
+          "Last-Modified": "Thu, 27 May 2021 14:00:00 GMT"
+        },
+        "body": "{ \"message\": \"Hello, world\" }"
+      }
+    }
+  }
+}

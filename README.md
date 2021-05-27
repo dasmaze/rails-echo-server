@@ -256,6 +256,7 @@ The server implements some validation for endpoint input:
 
 - HTTP methods are only allowed to be one of 'GET', 'HEAD', 'POST', 'PUT', 'DELETE', 'PATCH'
 - Paths are restricted to alphanumerical characters
+- Path and Method combinations for endpoints need to be unique
 
 When validation fails or when endpoints can not be found, the server responds with an error message, for example:
 
@@ -278,7 +279,6 @@ Content-Type: application/vnd.api+json
 ## Possible improvements
 
 - Default `/endpoints` routes might need to be protected from being overwritten. This should not be a problem because the route definition for them comes BEFORE the custom routes, but returning something like `409 Conflict` for those routes would still be a good idea.
-- It is currently possible to create multiple endpoints with the same path and http method combination, leading to those endpoints potentially being inaccessible. A uniqueness constraint for Path + Method should fix this
 - When accessing an existing endpoint path with a different HTTP method the server will respond with a 404 Not Found. Instead, it could respond with 405 Method Not Allowed and add the `Allow` response header with the method(s) currently supported
 - Error messages, especially for endpoint path/method combinations not found, can be improved. They currently return the ActiveRecord error message which indicates that the backend uses some SQL-like technology, which is not ideal from a security perspective.
 - json:api provides some good opportunities to work with paging and filtering, which could come in handy when creating lots of endpoint definitions.

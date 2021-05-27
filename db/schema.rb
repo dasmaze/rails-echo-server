@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_25_121835) do
+ActiveRecord::Schema.define(version: 2021_05_27_100229) do
 
   create_table "endpoints", force: :cascade do |t|
     t.string "verb"
@@ -19,6 +19,7 @@ ActiveRecord::Schema.define(version: 2021_05_25_121835) do
     t.text "response_body"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["path", "verb"], name: "index_endpoints_on_path_and_verb", unique: true
   end
 
   create_table "headers", force: :cascade do |t|

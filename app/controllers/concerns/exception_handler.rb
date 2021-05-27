@@ -21,5 +21,12 @@ module ExceptionHandler
                 [{ code: 'validation_error', detail: "JSON attribute '#{e.param}' is missing" }]
             ), :unprocessable_entity)
         end
+
+        # Other validations
+        rescue_from ActiveRecord::RecordNotUnique do |e|
+            json_response(json_api_errors(
+                [{ code: 'non_unique', detail: "Path and method combinations for endpoints need to be unique" }]
+            ), :conflict)
+        end
     end
 end

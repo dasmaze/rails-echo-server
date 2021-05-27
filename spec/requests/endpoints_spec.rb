@@ -1,7 +1,22 @@
 require 'rails_helper'
 
 RSpec.describe 'Endpoints API', type: :request do
-    let!(:endpoints) { create_list(:endpoint, 10) }
+    let!(:endpoints) { 
+        [Endpoint.create(
+            verb: 'GET',
+            path: '/test',
+            response_code: 200,
+            headers: [],
+            response_body: ""
+        ),
+        Endpoint.create(
+            verb: 'POST',
+            path: '/test',
+            response_code: 201,
+            headers: [],
+            response_body: ""
+        )]
+    }
     let(:endpoint_id) { endpoints.first.id }
 
     let(:valid_endpoint) {{
@@ -50,7 +65,7 @@ RSpec.describe 'Endpoints API', type: :request do
 
         it 'returns endpoints' do
             expect(json).not_to be_empty
-            expect(json['data'].size).to eq(10)         
+            expect(json['data'].size).to eq(2)         
         end
 
         it 'returns status code 200' do
@@ -134,6 +149,25 @@ RSpec.describe 'Endpoints API', type: :request do
                 expect(json['errors'][0]['code']).to eq('validation_error')
             end
         end
+
+        context 'when the method and verb combination already exists' do
+            before { 
+                post '/endpoints', params: valid_endpoint 
+                post '/endpoints', params: valid_endpoint
+            }
+            
+            it 'returns status code 409' do
+                expect(response).to have_http_status(409)
+            end
+
+            it 'returns a validation error' do
+                expect(response.body).to match(/Path and method combinations for endpoints need to be unique/)
+            end
+
+            it 'returns a validation error code' do
+                expect(json['errors'][0]['code']).to eq('non_unique')
+            end
+        end
     end
 
     describe 'PATCH /endpoints/:id' do
@@ -170,6 +204,25 @@ RSpec.describe 'Endpoints API', type: :request do
 
             it 'returns a validation error' do
                 expect(response.body).to match(/JSON attribute 'data' is missing/)
+            end
+        end
+
+        context 'when the method and verb combination already exists' do
+            before { 
+                post '/endpoints', params: valid_endpoint
+                patch "/endpoints/#{endpoint_id}", params: valid_endpoint 
+            }
+            
+            it 'returns status code 409' do
+                expect(response).to have_http_status(409)
+            end
+
+            it 'returns a validation error' do
+                expect(response.body).to match(/Path and method combinations for endpoints need to be unique/)
+            end
+
+            it 'returns a validation error code' do
+                expect(json['errors'][0]['code']).to eq('non_unique')
             end
         end
     end

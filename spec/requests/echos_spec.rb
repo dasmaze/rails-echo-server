@@ -37,6 +37,14 @@ RSpec.describe 'Endpoints API', type: :request do
         it 'returns 404' do
             expect(response).to have_http_status(404)
         end
+
+        it 'returns a not found error message' do
+            expect(response.body).to match(/Couldn't find Endpoint with/)
+        end
+
+        it 'returns a not found error code' do
+            expect(json['errors'][0]['code']).to eq('not_found')
+        end
     end
 
     describe 'call an existing endpoint with a different method' do
@@ -44,6 +52,14 @@ RSpec.describe 'Endpoints API', type: :request do
 
         it 'returns 404' do
             expect(response).to have_http_status(404)
+        end
+
+        it 'returns a not found error message' do
+            expect(response.body).to match(/Couldn't find Endpoint with/)
+        end
+
+        it 'returns a not found error code' do
+            expect(json['errors'][0]['code']).to eq('not_found')
         end
     end
 end

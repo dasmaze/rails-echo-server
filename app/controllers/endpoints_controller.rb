@@ -1,23 +1,23 @@
 class EndpointsController < ApplicationController
     def index
         @endpoints = Endpoint.all
-        render json: json_api_endpoints(@endpoints)
+        json_response(json_api_endpoints(@endpoints))
     end
 
     def create
         @endpoint = Endpoint.create!(endpoint_attributes)
-        render json: json_api_endpoint(@endpoint), status: :created
+        json_response(json_api_endpoint(@endpoint), :created)
     end
 
     def show
         @endpoint = Endpoint.find(params[:id])
-        render json: json_api_endpoint(@endpoint)
+        json_response(json_api_endpoint(@endpoint))
     end
 
     def update
         @endpoint = Endpoint.find(params[:id])
         @endpoint.update!(endpoint_attributes)
-        render json: json_api_endpoint(@endpoint)
+        json_response(json_api_endpoint(@endpoint))
     end
 
     def destroy

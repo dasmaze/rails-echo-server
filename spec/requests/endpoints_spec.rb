@@ -83,6 +83,10 @@ RSpec.describe 'Endpoints API', type: :request do
             it 'returns a not found error message' do
                 expect(response.body).to match(/Couldn't find Endpoint with 'id'=#{missing_endpoint_id}/)
             end
+
+            it 'returns a not found error code' do
+                expect(json['errors'][0]['code']).to eq('not_found')
+            end
         end
     end
 
@@ -106,8 +110,12 @@ RSpec.describe 'Endpoints API', type: :request do
                 expect(response).to have_http_status(422)
             end
 
-            it 'returns a validation error' do
+            it 'returns validation error details' do
                 expect(response.body).to match(/Verb 'INVALID_VERB' is not a supported HTTP method/)
+            end
+
+            it 'returns a validation error code' do
+                expect(json['errors'][0]['code']).to eq('validation_error')
             end
         end
 
@@ -120,6 +128,10 @@ RSpec.describe 'Endpoints API', type: :request do
 
             it 'returns a validation error' do
                 expect(response.body).to match(/JSON attribute 'data' is missing/)
+            end
+
+            it 'returns a validation error code' do
+                expect(json['errors'][0]['code']).to eq('validation_error')
             end
         end
     end
